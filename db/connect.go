@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	"github.com/mnsh5/todo-api/config"
+	"github.com/mnsh5/todo-api/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
@@ -26,7 +29,11 @@ func ConnectDB() {
 		config.Config("DB_USER"),
 		config.Config("DB_PASSWORD"))
 
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+		NowFunc: func() time.Time { return time.Now().Local() },
+		Logger:  logger.Default.LogMode(logger.Info),
+	})
+
 	if err != nil {
 		panic(fmt.Errorf("failed to connect to database: %w", err))
 	}
@@ -35,6 +42,6 @@ func ConnectDB() {
 	log.Printf("Connection open to database %v", dbName)
 
 	log.Println("Connection Opened to Database")
-	DB.AutoMigrate()
+	DB.AutoMigrate(&models.Task{})
 	log.Println("Database migrated successfully")
 }
