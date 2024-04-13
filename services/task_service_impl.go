@@ -60,7 +60,11 @@ func (t *TaskServiceImpl) Create(c echo.Context) error {
 		return common.ErrorHandler(c, http.StatusBadRequest, errorMessage, err)
 	}
 
-	t.Db.Create(&task)
+	if err := t.Db.Create(&task).Error; err != nil {
+		errorMessage := fmt.Sprintf("Failed to create task: %s", err.Error())
+		return common.ErrorHandler(c, http.StatusInternalServerError, errorMessage, err)
+	}
+
 	response := map[string]interface{}{
 		"status":  "success",
 		"message": "Task has been created",
