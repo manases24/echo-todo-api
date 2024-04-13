@@ -14,8 +14,8 @@ type TaskServiceImpl struct {
 	Db *gorm.DB
 }
 
-func NewTagsRepositoryImpl(DB *gorm.DB) TaskService {
-	return &TaskServiceImpl{Db: DB}
+func NewTagsRepositoryImpl(Db *gorm.DB) TaskService {
+	return &TaskServiceImpl{Db: Db}
 }
 
 func (t *TaskServiceImpl) FindAll(c echo.Context) error {
@@ -62,7 +62,7 @@ func (t *TaskServiceImpl) Create(c echo.Context) error {
 
 	if err := t.Db.Create(&task).Error; err != nil {
 		errorMessage := fmt.Sprintf("Failed to create task: %s", err.Error())
-		return common.ErrorHandler(c, http.StatusInternalServerError, errorMessage, err)
+		return common.ErrorHandler(c, http.StatusBadGateway, errorMessage, err)
 	}
 
 	response := map[string]interface{}{

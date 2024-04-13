@@ -13,6 +13,8 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+var DB *gorm.DB
+
 func ConnectDB() {
 	var err error
 	p := config.Config("DB_PORT")
