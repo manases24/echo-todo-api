@@ -36,16 +36,16 @@ func (t *TaskServiceImpl) FindAll(c echo.Context) error {
 
 func (t *TaskServiceImpl) FindById(c echo.Context) error {
 	id := c.Param("id")
-	var task []models.Task
+	var task models.Task
 
 	if err := t.Db.Find(&task, id).Error; err != nil {
-		errorMessage := fmt.Sprintf("No user found with ID: %s", id)
+		errorMessage := fmt.Sprintf("No task found with ID: %s", id)
 		return common.ErrorHandler(c, http.StatusBadRequest, errorMessage, err)
 	}
 
 	response := map[string]interface{}{
 		"status":  "success",
-		"message": "User with the provided ID found",
+		"message": "Task with the provided ID found",
 		"data":    &task,
 	}
 
@@ -70,9 +70,35 @@ func (t *TaskServiceImpl) Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, response)
 }
 
-// func (t *TaskServiceImpl) Update(c echo.Context) error {
-// 	// Implementación de la función Update
-// }
+func (t *TaskServiceImpl) Update(c echo.Context) error {
+	id := c.Param("id")
+	var task models.Task
+
+	if err := t.Db.First(&task, id).Error; err != nil {
+		errorMessage := fmt.Sprintf("No task found with ID: %s", id)
+		return common.ErrorHandler(c, http.StatusBadRequest, errorMessage, err)
+	}
+
+	updateTask := new(models.Task)
+	if err := c.Bind(updateTask); err != nil {
+		errorMessage := fmt.Sprintf("Failed to parse request body: %s", err.Error())
+		return common.ErrorHandler(c, http.StatusBadRequest, errorMessage, err)
+	}
+
+	task.Name = updateTask.Name
+	task.Description = updateTask.Description
+	task.Done = updateTask.Done
+	t.Db.Save(&task)
+
+	response := map[string]interface{}{
+		"status":  "success",
+		"message": "Task has been updated",
+		"data":    &task,
+	}
+
+	return c.JSON(http.StatusOK, response)
+
+}
 
 // func (t *TaskServiceImpl) Delete(c echo.Context) error {
 // 	// Implementación de la función Delete

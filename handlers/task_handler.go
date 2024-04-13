@@ -28,3 +28,8 @@ func (t TaskHandler) Create(c echo.Context) error {
 	log.Info("Attempting to create a new task")
 	return t.taskService.Create(c)
 }
+
+func (t TaskHandler) Update(c echo.Context) error {
+	log.Info("Attempting to update a task")
+	return t.taskService.Update(c)
+}
