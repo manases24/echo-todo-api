@@ -23,8 +23,9 @@ func SetupRoutes(e *echo.Echo) {
 
 	// Task
 	v1.GET("/tasks", task.FindAll)
-
 	v1.GET("/task/:id", task.FindById)
 	v1.POST("/task", task.Create)
+	v1.PUT("/task/:id", task.Update)
+	v1.DELETE("/task/:id", task.Delete)
 
 }

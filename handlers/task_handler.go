@@ -33,3 +33,8 @@ func (t *TaskHandler) Update(c echo.Context) error {
 	log.Info("Attempting to update a task")
 	return t.taskService.Update(c)
 }
+
+func (t *TaskHandler) Delete(c echo.Context) error {
+	log.Info("Attempting to update a task")
+	return t.taskService.Delete(c)
+}
