@@ -104,6 +104,21 @@ func (t *TaskServiceImpl) Update(c echo.Context) error {
 
 }
 
-// func (t *TaskServiceImpl) Delete(c echo.Context) error {
-// 	// Implementación de la función Delete
-// }
+func (t *TaskServiceImpl) Delete(c echo.Context) error {
+	id := c.Param("id")
+	var task models.Task
+
+	if err := t.Db.First(&task, id).Error; err != nil {
+		errorMessage := fmt.Sprintf("No task found with ID: %s", id)
+		return common.ErrorHandler(c, http.StatusBadRequest, errorMessage, err)
+	}
+
+	t.Db.Delete(&task)
+	response := map[string]interface{}{
+		"status":  "success",
+		"message": "Task has been deleted",
+		"id":      &task.ID,
+	}
+
+	return c.JSON(http.StatusOK, response)
+}
