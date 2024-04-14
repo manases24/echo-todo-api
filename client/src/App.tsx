@@ -1,10 +1,11 @@
+import { Header } from "./components/Header";
+
 function App() {
   return (
-    <>
-      <div>
-        <h1>Vite + React</h1>
-      </div>
-    </>
+    <div className='container mx-auto px-4 my-2.5'>      
+      <Header/>
+      <h1>Todo List</h1>
+    </div>
   );
 }
 

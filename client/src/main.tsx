@@ -5,20 +5,16 @@ import { Link, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import App from './App.tsx'
 import './index.css'
+import { TaskList } from './components/TaskList.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <div>
-        <App/>
-        <Link to="about">About Us</Link>
-      </div>
-    ),
+    element: <App/>
   },
   {
-    path: "about",
-    element: <div>About</div>,
+    path: "search",
+    element: <TaskList/>
   },
 ]);
 
