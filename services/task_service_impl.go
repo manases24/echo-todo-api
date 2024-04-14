@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ type TaskServiceImpl struct {
 	Db *gorm.DB
 }
 
-func NewTagsRepositoryImpl(Db *gorm.DB) TaskService {
+func NewTaskServiceImpl(Db *gorm.DB) TaskService {
 	return &TaskServiceImpl{Db: Db}
 }
 

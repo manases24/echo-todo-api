@@ -3,14 +3,14 @@ package handlers
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
-	service "github.com/mnsh5/todo-api/services"
+	"github.com/mnsh5/todo-api/services"
 )
 
 type TaskHandler struct {
-	taskService service.TaskService
+	taskService services.TaskService
 }
 
-func NewTaskHandler(s service.TaskService) *TaskHandler {
+func NewTaskHandler(s services.TaskService) *TaskHandler {
 	return &TaskHandler{taskService: s}
 }
 
