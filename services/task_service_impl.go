@@ -38,7 +38,7 @@ func (t *TaskServiceImpl) FindById(c echo.Context) error {
 	id := c.Param("id")
 	var task models.Task
 
-	if err := t.Db.Find(&task, id).Error; err != nil {
+	if err := t.Db.First(&task, id).Error; err != nil {
 		errorMessage := fmt.Sprintf("No task found with ID: %s", id)
 		return common.ErrorHandler(c, http.StatusBadRequest, errorMessage, err)
 	}
